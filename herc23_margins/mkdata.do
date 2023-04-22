@@ -89,9 +89,6 @@ drop xb e
 label var smhc "Received specialty mental health care"
 label val smhc yn
 
-sum smhc
-exit
-
 compress
 order smhc urban pvehicle transit distprov age age18 income 
 label data "Simulated rural mental health data"
