@@ -92,32 +92,14 @@ gen smhc = xb > 0
 label var smhc "Received specialty mental health care"
 label val smhc yn
 
-    // Outcome (secondary)
-gen u = rnormal(0,.25)
-        // modified effects
-        local b0   2.85
-        local b1  -0.09
-        local b11 -0.005
-        local b2  -0.6
-        local b27  0.005
-        local b5  -0.009
-        local b7   0.45 
-replace xb = `b0' + (`b2')*(urban==0) + u ///
-    + (`b27')*(urban==0)*pref ///
-	+ (`b1')*age18 		    ///
-    + (`b11')*age18*age18    ///
-	+ (`b5')*income 	    ///
-    + (`b7')*pref
-  
-gen double oop = exp(xb)*(smhc==1)
-label var oop "Out of pocket medical expenses ($1,000s)"
 
-replace oop = 0 if oop<0.0001
-sum oop if oop>0, det
+    // Outcome (secondary) - # of visits ("continuous")
+gen nvisits = round(max(0,xb)), before(smhc)
+label var nvisits "Number of specialty mental health visits"
 
-drop xb e u
+drop xb e 
 
 compress
-order subid smhc oop urban pvehicle transit distprov age age18 income 
+order subid nvisits smhc urban age age18 income pvehicle transit distprov 
 label data "Simulated rural mental health data"
 save data\ruralmh, replace
