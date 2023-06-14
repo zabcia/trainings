@@ -1,10 +1,7 @@
-*! 03may2023
+*! 03may2023  raraciborski
 *! annotated descriptive statistics table code
 
 version 17
-
-clear
-use data/ruralmh
 
 /* Create a constant to use in making our totals over urban 
 (n.b. as of writing this code, Stata will not let you label the first row with 
